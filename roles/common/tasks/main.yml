@@ -1,12 +1,9 @@
-- name: Update apt cache
-  apt:
-    update_cache: yes
-
 - name: Install required packages for Docker
   apt:
     name: "{{item}}"
     state: present
   with_items: "{{required_packages}}"
+  notify: Update apt cache
 
 - name: Create Docker directory
   file:
@@ -24,10 +21,19 @@
   apt_repository:
     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bullseye stable"
     state: present
+  notify: Update apt cache
 
 - name: Install Docker packages
   apt:
     name: "{{item}}"
     state: present
-    update_cache: true
   with_items: "{{docker_packages}}"
+  notify: Updare apt cache
+
+- name: Check docker version
+  command: docker --version
+  register: docker_version
+  ignore_errors: yes
+
+- debug:
+    msg: "{{docker_version.stdout}}"
