@@ -1,3 +1,7 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
 - name: Install required packages for Docker
   apt:
     name: "{{item}}"
@@ -37,3 +41,18 @@
 
 - debug:
     msg: "{{docker_version.stdout}}"
+
+
+- name: Installer Docker Compose pour Linux x86_64
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.30.2/docker-compose-linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: Vérifier la version de Docker Compose
+  command: docker-compose --version
+  register: docker_compose_version
+  ignore_errors: yes
+
+- debug:
+    msg: "Docker Compose version: {{ docker_compose_version.stdout }}"

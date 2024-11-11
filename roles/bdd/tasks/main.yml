@@ -1,0 +1,26 @@
+- name: Create directory for database
+  file:
+    path: /opt/bdd
+    state: directory
+    mode: '0755'
+
+- name: Copy env file
+  ansible.builtin.copy:
+    src: ../../.env
+    dest: /opt/bdd/.env
+
+- name: Copy docker compose file
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: /opt/bdd/docker-compose.yml
+
+- name: Build BDD image
+  community.docker.docker_compose_v2:
+    project_src: /opt/bdd/
+    state: present
+    pull: "missing"
+  register: output
+
+- name: Show results
+  ansible.builtin.debug:
+    var: output.containers[0].Status
