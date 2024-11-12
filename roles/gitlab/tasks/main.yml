@@ -1,27 +1,27 @@
 - name: Create directory for database
   file:
-    path: /opt/bdd
+    path: /opt/gitlab
     state: directory
     mode: '0755'
 
 - name: Copy env file
   ansible.builtin.copy:
     src: ../../.env
-    dest: /opt/bdd/.env
+    dest: /opt/gitlab/.env
 
 - name: Copy docker compose file
   ansible.builtin.copy:
     src: docker-compose.yml
-    dest: /opt/bdd/docker-compose.yml
+    dest: /opt/gitlab/docker-compose.yml
 
-- name: Copy init sql file
+- name: Copy dockerfile
   ansible.builtin.copy:
-    src: init-db.sql
-    dest: /opt/bdd/init-db.sql
+    src: dockerfile
+    dest: /opt/gitlab/dockerfile
 
 - name: Build BDD image
   community.docker.docker_compose_v2:
-    project_src: /opt/bdd/
+    project_src: /opt/gitlab/
     state: present
     pull: "missing"
   register: output
