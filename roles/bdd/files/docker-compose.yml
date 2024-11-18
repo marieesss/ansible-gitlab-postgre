@@ -7,7 +7,6 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB:  ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
@@ -17,7 +16,7 @@ services:
       retries: 10
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./roles/bdd/files/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - gitlab_network
 
