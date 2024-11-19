@@ -32,7 +32,7 @@
     name: "{{item}}"
     state: present
   with_items: "{{docker_packages}}"
-  notify: Updare apt cache
+  notify: Update apt cache
 
 - name: Check docker version
   command: docker --version
