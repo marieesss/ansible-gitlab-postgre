@@ -14,6 +14,12 @@
     src: docker-compose.yml
     dest: /opt/bdd/docker-compose.yml
 
+- name: Generate SQL file
+  template:
+    src: roles/bdd/files/init-db.sql
+    dest: /opt/bdd/init-db.sql
+    mode: '0644'
+
 - name: Build BDD image
   community.docker.docker_compose_v2:
     project_src: /opt/bdd/

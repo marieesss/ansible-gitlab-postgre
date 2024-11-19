@@ -1,0 +1,4 @@
+POSTGRES_USER: "{{ lookup('env', 'POSTGRES_USER') }}"
+POSTGRES_PASSWORD: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
+POSTGRES_DB: "all"
+POSTGRES_ROOT_PASSWORD: "{{ lookup('env', 'POSTGRES_ROOT_PASSWORD') }}"
