@@ -1,20 +1,21 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=Europe/Paris
 
 RUN apt-get update -y && \
-	apt-get install -y curl openssh-server ca-certificates tzdata perl && \
-	apt-get clean
+    apt-get install -y curl openssh-server ca-certificates tzdata gnupg2 perl locales && \
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 && \
+    apt-get clean
 
-RUN curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
-
-ENV LC_CTYPE=en_US.UTF-8
+ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-RUN apt-get install -y gitlab-ce
+RUN curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash && \
+        apt-get install -y gitlab-ee
 
-EXPOSE 80 443 22 
+EXPOSE 80 443 22
 
 ENTRYPOINT ["/opt/gitlab/embedded/bin/runsvdir-start"]
-CMD ["gitlab-ctl", "reconfigure"]
