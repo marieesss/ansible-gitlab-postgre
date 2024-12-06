@@ -8,15 +8,15 @@ services:
     container_name: gitlab
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://192.168.191.131:8080'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        external_url '{{external_url}}'
+        gitlab_rails['gitlab_shell_ssh_port'] = {{gitlab_shell_ssh_port}}
         gitlab_rails['db_adapter'] = "postgresql"
         gitlab_rails['db_host'] = "database"
         gitlab_rails['db_port'] = 5432
-        gitlab_rails['db_database'] = {{POSTGRES_DB}}
-        gitlab_rails['db_username'] = {{POSTGRES_USER}}
-        gitlab_rails['db_password'] =  {{POSTGRES_PASSWORD}}
-        gitlab_rails['initial_root_password'] ={{POSTGRES_PASSWORD}}
+        gitlab_rails['db_database'] = {{postgres_db}}
+        gitlab_rails['db_username'] = {{postgres_user}}
+        gitlab_rails['db_password'] = {{postgres_password}}
+      GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password }}"
     privileged: true
     ports:
       - "8080:80"
@@ -29,7 +29,6 @@ services:
     networks:
       - gitlab_network
 
-
 volumes:
   gitlab_config:
   gitlab_logs:
@@ -38,3 +37,4 @@ volumes:
 networks:
   gitlab_network:
     external: true
+
