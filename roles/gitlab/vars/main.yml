@@ -1,0 +1,7 @@
+external_url: "http://{{ ansible_default_ipv4.address }}:8080"
+gitlab_shell_ssh_port: 2224
+postgres_db: "all"
+postgres_user: "vagrant"
+postgres_password: "password"
+postgres_root_password: "password"
+gitlab_root_password: "SkGLuP&Ver3rb@IRBBX"
